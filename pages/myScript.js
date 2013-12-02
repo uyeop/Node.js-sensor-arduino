@@ -87,6 +87,39 @@ function drawCanvas()
 }
 
 
+//This function is run whenever the user press a key on the keyboard
+	
+function keyPressed( event )
+{
+	
+	//retrieve the code of the code that was pressed
+	var code = ( event.keyCode ? event.keyCode : event.which );	
+	if( code == 38 ) //up arrow pressed
+	{		
+	    var val = parseInt($( "#cat" ).css('margin-top')) 
+        val = val-5;
+        $( "#cat" ).css('margin-top', val.toString()+'px');
+	}
+	else if( code == 40 ) //down arrow pressed
+	{
+        var val = parseInt($( "#cat" ).css('margin-top')) 
+        val = val+5;
+        $( "#cat" ).css('margin-top', val.toString()+'px');
+	}
+	else if( code == 37 ) //left arrow pressed
+	{
+        var val = parseInt($( "#cat" ).css('margin-left')) 
+        val = val-5;
+        $( "#cat" ).css('margin-left', val.toString()+'px');
+		
+	}
+	else if( code == 39 ) //right arrow pressed
+	{
+	    var val = parseInt($( "#cat" ).css('margin-left')) 
+        val = val+5;
+        $( "#cat" ).css('margin-left', val.toString()+'px');	
+	}
+}
 
 
 window.onload = function() 
@@ -96,4 +129,8 @@ window.onload = function()
   
 $(document).ready(function() 
                     {
+                        //create tabs
+                        $( "#tabs" ).tabs();
+    	                //Handler for key pressed in the table 
+		                $( document.body ).bind( 'keydown', keyPressed );
                     });

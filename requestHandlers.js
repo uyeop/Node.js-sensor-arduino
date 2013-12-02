@@ -7,15 +7,16 @@ server = require('./server');
 
 
 /* 
-* This function answers a request for an HTML file 
+* This function answers a request for the interface.html file 
 * from the clients 
 */
 function sendInterface(response) {
-  console.log("Request handler 'interface' was called.");
+  console.log("Request handler 'interface.html' was called.");
   response.writeHead(200, {"Content-Type": "text/html"});
   var html = fs.readFileSync(__dirname + "/pages/interface.html");
   response.end(html);
 }
+
 
 /* 
 * This function answers a request for the myStyle.CSS file 
@@ -73,6 +74,17 @@ function sendJqueryJS(response) {
   response.end(css);
 }
 
+/* 
+* This function answers a request for the nianCat.jpg file 
+* from the clients 
+*/
+function sendImageCat(response) {
+  console.log("Request handler 'nianCat.jpg' was called.");
+  response.writeHead(200, {"Content-Type": "image/jpeg"});
+  var jpg = fs.readFileSync(__dirname + "/pages/images/nianCat.jpg");
+  response.end(jpg);
+}
+
 
 exports.sendInterface = sendInterface;
 exports.sendMyCSS = sendMyCSS;
@@ -80,3 +92,4 @@ exports.sendJqueryuiCSS = sendJqueryuiCSS;
 exports.sendMyJS = sendMyJS;
 exports.sendJqueryuiJS = sendJqueryuiJS;
 exports.sendJqueryJS = sendJqueryJS;
+exports.sendImageCat = sendImageCat;
