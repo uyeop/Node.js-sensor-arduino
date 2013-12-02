@@ -7,6 +7,7 @@ var SerialPort = require("serialport").SerialPort;
 var socketServer;
 var serialPort;
 var portName = '/dev/ttyACM0'; //change this to your Arduino port
+var receivedData = "";
 var sendData = "";
 
 // handle contains locations to browse to (vote and poll); pathnames.
@@ -36,30 +37,34 @@ function initSocketIO(httpServer,debug)
 	if(debug == false){
 		socketServer.set('log level', 1); // socket IO debug off
 	}
-	socketServer.on('connection', function (socket) 
-                                    {
-	                                    console.log("user connected");
-	                                    socket.emit('onconnection', {pollOneValue:sendData});
-	
-                                        socketServer.on('update', function(data) 
-                                                                    {
-	                                                                    socket.emit('updateData',{pollOneValue:data});
-	                                                                });
-	                                    socket.on('buttonval', function(data) 
-                                                                {
-		                                                            serialPort.write(data + 'E');
-	                                                            });
-                                    	socket.on('sliderval', function(data) {
-                                    		serialPort.write(data + 'P');
-                                    	});
-	
-                                    });
+	socketServer.on('connection', onConnect);
+}
+
+
+// Define the different actions to communicate with the browser
+function onConnect(socket)
+{
+    console.log("user connected");
+    socket.emit('onconnection', {frame:sendData});
+
+    socketServer.on('update', function(data) 
+                            {
+                                //console.log(data);
+                                socket.emit('updateData',{frame:data});
+                            });
+    socket.on('buttonval', function(data) 
+                            {
+                                serialPort.write(data + 'E');
+                            });
+    socket.on('sliderval', function(data) 
+                            {
+	                            serialPort.write(data + 'P');
+                            });
 }
 
 // Listen to serial port
 function serialListener(debug)
 {
-    var receivedData = "";
     serialPort = new SerialPort(portName, {
         baudrate: 9600,
         // defaults for Arduino serial communication
@@ -73,18 +78,24 @@ function serialListener(debug)
                             {
                                 console.log('open serial communication');
                                 // Listens to incoming data
-                                 serialPort.on('data', function(data) 
-                                                        {
-                                                            receivedData += data.toString();
-                                                            if (receivedData .indexOf('E') >= 0 && receivedData .indexOf('B') >= 0) 
-                                                            {
-                                                                sendData = receivedData .substring(receivedData .indexOf('B') + 1, receivedData .indexOf('E'));
-           receivedData = '';
-         }
-         // send the incoming data to browser with websockets.
-       socketServer.emit('update', sendData);
-      });  
+                                 serialPort.on('data', receiveData);  
     });  
 }
+
+//handle the received data from serial port
+function receiveData(data)
+{
+
+    receivedData += data.toString();
+    if (receivedData.indexOf('start') >= 0 && receivedData.indexOf('end') >= 0) 
+    {
+        sendData = receivedData.substring(receivedData.indexOf('start') +5, receivedData.indexOf('end'));
+        receivedData = '';
+    }
+    // send the incoming data to browser with websockets.
+    socketServer.emit('update', sendData);
+
+}
+
 
 exports.start = startServer;
