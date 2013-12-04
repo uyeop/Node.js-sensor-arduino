@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+ <html>
+   
+   <head>    
+    
+    <link rel="stylesheet" type="text/css" href="/jquery-ui-1.9.2/themes/base/jquery-ui.css" />
+    <link rel="stylesheet" type="text/css" href="/tableViewStyle.css" />
+    
+    <script src="/jquery-ui-1.9.2/jquery-1.8.3.js"></script>
+	<script src="/jquery-ui-1.9.2/ui/jquery-ui.js"></script>
+	<script src="/socket.io/socket.io.js"></script>
+    <script src="/tableViewScript.js"> </script>
+  
+  </head>
+  
+  <body>
+  
+    <div id="menu">
+        <ul>
+            <li><a href="/interface.html">Table View</a></li>
+            <li><a href="/game.html">Game</a></li>
+            <li><a href="/game.html">Other</a></li>
+        </ul>
+    </div> 
+    
+    <div id="table-view">
+        <div>
+            <p id="text"></p>
+            <canvas id="tableCanvas" width="640" height="480"></canvas>
+        </div>
+    </div>
+    
+  </body>
+  
+</html>

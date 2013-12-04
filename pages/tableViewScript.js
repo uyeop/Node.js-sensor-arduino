@@ -35,7 +35,7 @@ function initSocketIO()
 	    iosocket.on('updateData', function (receivedData) {
 		
             var states = receivedData.frame; 
-            var c = document.getElementById("myCanvas");
+            var c = document.getElementById("tableCanvas");
             var ctx = c.getContext("2d");
             
             $( "#text" ).html(states);
@@ -66,7 +66,7 @@ function initSocketIO()
 //Draw the lines of the canvas  
 function drawCanvas()
 {
-    var c = document.getElementById("myCanvas");
+    var c = document.getElementById("tableCanvas");
     var ctx = c.getContext("2d");
     //draw first vertical line
     ctx.moveTo(160,0);
@@ -129,8 +129,6 @@ window.onload = function()
   
 $(document).ready(function() 
                     {
-                        //create tabs
-                        $( "#tabs" ).tabs();
     	                //Handler for key pressed in the table 
 		                $( document.body ).bind( 'keydown', keyPressed );
                     });

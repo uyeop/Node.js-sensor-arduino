@@ -7,89 +7,58 @@ server = require('./server');
 
 
 /* 
-* This function answers a request for the interface.html file 
+* This function answers a request for the .html files 
 * from the clients 
 */
-function sendInterface(response) {
-  console.log("Request handler 'interface.html' was called.");
+function sendHTML(response, pathname) {
+  console.log("Request handler for .html files was called.");
   response.writeHead(200, {"Content-Type": "text/html"});
-  var html = fs.readFileSync(__dirname + "/pages/interface.html");
+  if(pathname == "/") //a request for the home page is asked
+  {
+      pathname = "/tableView.html";
+  }
+  var html = fs.readFileSync(__dirname + "/pages" + pathname);
   response.end(html);
 }
 
 
 /* 
-* This function answers a request for the myStyle.CSS file 
+* This function answers a request for the .css files 
 * from the clients 
 */
-function sendMyCSS(response) {
-  console.log("Request handler 'myStyle.css' was called.");
+function sendCSS(response, pathname) {
+  console.log("Request handler .css files was called.");
   response.writeHead(200, {"Content-Type": "text/css"});
-  var css = fs.readFileSync(__dirname + "/pages/myStyle.css");
+  var css = fs.readFileSync(__dirname + "/pages" + pathname);
   response.end(css);
 }
 
-/* 
-* This function answers a request for the jquery-ui.CSS file 
-* from the clients 
-*/
-function sendJqueryuiCSS(response) {
-  console.log("Request handler 'jquery-ui.css' was called.");
-  response.writeHead(200, {"Content-Type": "text/css"});
-  var css = fs.readFileSync(__dirname + "/pages/jquery-ui-1.9.2/themes/base/jquery-ui.css");
-  response.end(css);
-}
 
 /* 
-* This function answers a request for the myScript.js file 
+* This function answers a request for the .js files 
 * from the clients 
 */
-function sendMyJS(response) {
-  console.log("Request handler 'myScript.js' was called.");
+function sendJS(response, pathname) {
+  console.log("Request handler for the .js files was called.");
   response.writeHead(200, {"Content-Type": "application/javascript"});
-  var css = fs.readFileSync(__dirname + "/pages/myScript.js");
+  var css = fs.readFileSync(__dirname + "/pages" + pathname);
   response.end(css);
 }
 
 
 /* 
-* This function answers a request for the jquery-ui.js file 
+* This function answers a request for the .jpg files 
 * from the clients 
 */
-function sendJqueryuiJS(response) {
-  console.log("Request handler 'myScript.js' was called.");
-  response.writeHead(200, {"Content-Type": "application/javascript"});
-  var css = fs.readFileSync(__dirname + "/pages/jquery-ui-1.9.2/ui/jquery-ui.js");
-  response.end(css);
-}
-
-/* 
-* This function answers a request for the jquery.js file 
-* from the clients 
-*/
-function sendJqueryJS(response) {
-  console.log("Request handler 'myScript.js' was called.");
-  response.writeHead(200, {"Content-Type": "application/javascript"});
-  var css = fs.readFileSync(__dirname + "/pages/jquery-ui-1.9.2/jquery-1.8.3.js");
-  response.end(css);
-}
-
-/* 
-* This function answers a request for the nianCat.jpg file 
-* from the clients 
-*/
-function sendImageCat(response) {
-  console.log("Request handler 'nianCat.jpg' was called.");
+function sendJPG(response, pathname) {
+  console.log("Request handler for the.jpg files was called.");
   response.writeHead(200, {"Content-Type": "image/jpeg"});
-  var jpg = fs.readFileSync(__dirname + "/pages/images/nianCat.jpg");
+  var jpg = fs.readFileSync(__dirname + "/pages" + pathname);
   response.end(jpg);
 }
 
 
-exports.sendInterface = sendInterface;
-exports.sendMyCSS = sendMyCSS;
-exports.sendJqueryuiCSS = sendJqueryuiCSS;
-exports.sendMyJS = sendMyJS;
-exports.sendJqueryuiJS = sendJqueryuiJS;
-exports.sendJqueryJS = sendJqueryJS;
-exports.sendImageCat = sendImageCat;
+exports.sendHTML = sendHTML;
+exports.sendCSS = sendCSS;
+exports.sendJS = sendJS;
+exports.sendJPG = sendJPG;
